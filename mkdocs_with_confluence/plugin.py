@@ -507,7 +507,7 @@ class MkdocsWithConfluence(BasePlugin):
         if self.config["debug"]:
             print(f"INFO    -   * Mkdocs With Confluence: Find Page ID: PAGE NAME: {page_name}")
         name_confl = page_name.replace(" ", "+")
-        url = f'{self.config["host_url"]}?title={name_confl}&spaceKey={self.config["space"]}"&expand=history"'
+        url = f'{self.config["host_url"]}?title={name_confl}&spaceKey={self.config["space"]}&expand=history'
         if self.config["debug"]:
             print(f"URL: {url}")
         r = self.session.get(url)
