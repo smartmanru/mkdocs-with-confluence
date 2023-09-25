@@ -5,10 +5,10 @@ import sys
 import re
 import tempfile
 import shutil
+from typing import Optional, Union
 import requests
 import mimetypes
 
-from sympy import Union
 import mistune
 import contextlib
 from time import sleep
@@ -40,9 +40,9 @@ class MkdocsWithConfluence(BasePlugin):
         ("host_url", config_options.Type(str, default=None)),
         ("space", config_options.Type(str, default=None)),
         ("parent_page_name", config_options.Type(str, default=None)),
-        ("username", config_options.Type(Union[str,None], default=environ.get("JIRA_USERNAME", None))),
-        ("password", config_options.Type(Union[str,None], default=environ.get("JIRA_PASSWORD", None))),
-        ("token", config_options.Type(Union[str,None], default=environ.get("JIRA_TOKEN", None))),
+        ("username", config_options.Type(Optional[Union[str,None]] ,default=environ.get("JIRA_PASSWORD", None))),
+        ("password", config_options.Type(Optional[Union[str,None]], default=environ.get("JIRA_PASSWORD", None))),
+        ("token", config_options.Type(Optional[Union[str,None]], default=environ.get("JIRA_TOKEN", None))),
         ("enabled_if_env", config_options.Type(str, default=None)),
         ("verbose", config_options.Type(bool, default=False)),
         ("debug", config_options.Type(bool, default=False)),
