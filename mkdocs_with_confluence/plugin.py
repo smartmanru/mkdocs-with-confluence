@@ -7,6 +7,8 @@ import tempfile
 import shutil
 import requests
 import mimetypes
+
+from sympy import Union
 import mistune
 import contextlib
 from time import sleep
@@ -38,8 +40,9 @@ class MkdocsWithConfluence(BasePlugin):
         ("host_url", config_options.Type(str, default=None)),
         ("space", config_options.Type(str, default=None)),
         ("parent_page_name", config_options.Type(str, default=None)),
-        ("username", config_options.Type(str, default=environ.get("JIRA_USERNAME", None))),
-        ("password", config_options.Type(str, default=environ.get("JIRA_PASSWORD", None))),
+        ("username", config_options.Type(Union[str,None], default=environ.get("JIRA_USERNAME", None))),
+        ("password", config_options.Type(Union[str,None], default=environ.get("JIRA_PASSWORD", None))),
+        ("token", config_options.Type(Union[str,None], default=environ.get("JIRA_TOKEN", None))),
         ("enabled_if_env", config_options.Type(str, default=None)),
         ("verbose", config_options.Type(bool, default=False)),
         ("debug", config_options.Type(bool, default=False)),
@@ -146,7 +149,10 @@ class MkdocsWithConfluence(BasePlugin):
 
     def on_page_markdown(self, markdown, page, config, files):
         MkdocsWithConfluence._id += 1
-        self.session.auth = (self.config["username"], self.config["password"])
+        if self.config['token']:
+            self.session.headers = {f"Authorization: Bearer {self.config['token']}"}
+        else:
+            self.session.auth = (self.config["username"], self.config["password"])
 
         if self.enabled:
             if self.simple_log is True:
